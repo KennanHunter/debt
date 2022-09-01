@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import Loading from "../component/Loading";
+import Loading from "../components/Loading";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [user, loading, error] = useAuthState(auth);
