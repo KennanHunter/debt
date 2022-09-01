@@ -1,8 +1,16 @@
-import { collection, query, where } from "firebase/firestore";
+import {
+	collection,
+	DocumentData,
+	query,
+	QueryDocumentSnapshot,
+	where,
+} from "firebase/firestore";
 import type { NextPage } from "next";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
+import ListGroup from "../components/ListGroup";
 import { auth, db } from "../firebase/firebase";
+import { DBType } from "../firebase/types";
 
 const Home: NextPage = () => {
 	const [user] = useAuthState(auth);
@@ -18,11 +26,13 @@ const Home: NextPage = () => {
 					}
 				).uid
 			)
+			// orderBy("debtor")
 		),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
 		}
 	);
+
 	return (
 		<div>
 			<h1>Debt</h1>
@@ -30,15 +40,50 @@ const Home: NextPage = () => {
 			<ul>
 				{value && (
 					<span>
-						Collection:{" "}
-						{value.docs.map((doc) => (
-							<li key={doc.id}>{JSON.stringify(doc.data())}, </li>
-						))}
+						{(() => {
+							let ret = [];
+
+							for (let [debtor, arr] of SortByDebtor(
+								value.docs
+							)) {
+								ret.push(
+									<ListGroup arr={arr} debtor={debtor} />
+								);
+							}
+
+							return ret;
+						})()}
 					</span>
 				)}
 			</ul>
 		</div>
 	);
 };
+
+function SortByDebtor(
+	docs: QueryDocumentSnapshot<DocumentData>[]
+): Map<string, DBType[]> {
+	const tieredData = new Map();
+
+	docs.map((doc) => {
+		const data = doc.data() as DBType;
+
+		// Only add new data if not already in it
+		if (tieredData.has(data.debtor)) return;
+
+		tieredData.set(
+			data.debtor,
+			docs
+				// Get data that belongs to debtor
+				.filter((val) => {
+					return val.data().debtor === data.debtor;
+				})
+				// Transform data to raw rep
+				.map((val) => val.data())
+		);
+	});
+
+	return tieredData;
+}
 
 export default Home;
