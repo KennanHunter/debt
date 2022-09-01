@@ -7,7 +7,18 @@ import { auth, db } from "../firebase/firebase";
 const Home: NextPage = () => {
 	const [user] = useAuthState(auth);
 	const [value, loading, error] = useCollection(
-		query(collection(db, "debts"), where("uid", "==", user?.uid)),
+		query(
+			collection(db, "debts"),
+			where(
+				"uid",
+				"==",
+				(
+					user || {
+						uid: "throwaway",
+					}
+				).uid
+			)
+		),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
 		}
