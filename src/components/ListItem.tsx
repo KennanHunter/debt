@@ -1,6 +1,6 @@
-import { DBType } from "../firebase/types";
+import { DebtEntryWithID } from "../firebase/types";
 
-function ListItem({ reason, value, interest }: DBType) {
+function ListItem({ reason, value, interest }: DebtEntryWithID) {
 	return (
 		<li>
 			<div>

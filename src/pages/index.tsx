@@ -10,7 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import ListGroup from "../components/ListGroup";
 import { auth, db } from "../firebase/firebase";
-import { DBType } from "../firebase/types";
+import { DebtEntryWithID } from "../firebase/types";
 
 const Home: NextPage = () => {
 	const [user] = useAuthState(auth);
@@ -26,7 +26,6 @@ const Home: NextPage = () => {
 					}
 				).uid
 			)
-			// orderBy("debtor")
 		),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true },
@@ -47,7 +46,11 @@ const Home: NextPage = () => {
 								value.docs
 							)) {
 								ret.push(
-									<ListGroup arr={arr} debtor={debtor} />
+									<ListGroup
+										key={debtor}
+										arr={arr}
+										debtor={debtor}
+									/>
 								);
 							}
 
@@ -62,11 +65,12 @@ const Home: NextPage = () => {
 
 function SortByDebtor(
 	docs: QueryDocumentSnapshot<DocumentData>[]
-): Map<string, DBType[]> {
-	const tieredData = new Map();
+): Map<string, DebtEntryWithID[]> {
+	// Schema: Debtor, Entries under said debtor
+	const tieredData = new Map<string, DebtEntryWithID[]>();
 
 	docs.map((doc) => {
-		const data = doc.data() as DBType;
+		const data = { ...doc.data(), id: doc.id } as DebtEntryWithID;
 
 		// Only add new data if not already in it
 		if (tieredData.has(data.debtor)) return;
@@ -79,7 +83,9 @@ function SortByDebtor(
 					return val.data().debtor === data.debtor;
 				})
 				// Transform data to raw rep
-				.map((val) => val.data())
+				.map(
+					(val) => ({ id: val.id, ...val.data() } as DebtEntryWithID)
+				)
 		);
 	});
 

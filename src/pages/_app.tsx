@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	useEffect(() => {
 		if (!loading && !user && router.pathname !== "/auth/login")
 			router.push("/auth/login");
-	}, [user, loading]);
+	}, [user, loading, router]);
 
 	if (loading) {
 		return (

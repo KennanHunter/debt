@@ -1,4 +1,8 @@
-export interface DBType {
+export interface DebtEntryWithID extends DebtEntryNoID {
+	id: string;
+}
+
+export interface DebtEntryNoID {
 	uid: string;
 
 	debtor: string;
