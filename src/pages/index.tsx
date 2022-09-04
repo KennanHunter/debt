@@ -6,6 +6,8 @@ import {
 	where,
 } from "firebase/firestore";
 import type { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import ListGroup from "../components/ListGroup";
@@ -14,6 +16,7 @@ import { DebtEntryWithID } from "../firebase/types";
 
 const Home: NextPage = () => {
 	const [user] = useAuthState(auth);
+	const router = useRouter();
 	const [value, loading, error] = useCollection(
 		query(
 			collection(db, "debts"),
@@ -35,6 +38,14 @@ const Home: NextPage = () => {
 	return (
 		<div>
 			<h1>Debt</h1>
+
+			<button
+				onClick={() => {
+					router.push("/new");
+				}}
+			>
+				New
+			</button>
 
 			<ul>
 				{value && (
