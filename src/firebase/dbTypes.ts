@@ -5,6 +5,11 @@ export interface DebtEntryWithID extends DebtEntry {
 	id: string;
 }
 
+export interface DebtEntryWithInflation extends DebtEntry {
+	adjustedValue: number;
+	history?: number[];
+}
+
 export interface DebtEntry {
 	uid: string;
 
@@ -15,5 +20,5 @@ export interface DebtEntry {
 	interest: number;
 	interestTimespan: TimePeriod;
 
-	creationDate: Timestamp | FieldValue;
+	creationDate: Timestamp;
 }

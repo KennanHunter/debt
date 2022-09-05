@@ -1,11 +1,12 @@
 // TODO: Fetch already known debtors and give it as suggestion
 
-import { addDoc, serverTimestamp } from "firebase/firestore";
+import { addDoc, Timestamp } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { DebtEntry } from "../firebase/dbTypes";
 import { auth, debtCollection } from "../firebase/firebase";
+import { TimePeriod } from "../firebase/timePeriod";
 
 const New = () => {
 	const [user] = useAuthState(auth);
@@ -26,7 +27,7 @@ const New = () => {
 			interestTimespan,
 			collateral,
 			uid: user.uid,
-			creationDate: serverTimestamp(),
+			creationDate: Timestamp.now(),
 		} as DebtEntry);
 		router.push("/");
 	};
@@ -36,7 +37,11 @@ const New = () => {
 	const [amount, setAmount] = useState<number | string>(0);
 
 	const [interest, setInterest] = useState(0);
-	const [interestTimespan, setInterestTimespan] = useState("day");
+	const [interestTimespan, setInterestTimespan] = useState(TimePeriod.Day);
+
+	useEffect(() => {
+		console.log(interestTimespan);
+	}, [interestTimespan]);
 
 	const [collateral, setCollateral] = useState("");
 
@@ -104,13 +109,24 @@ const New = () => {
 						name="interestTimespan"
 						id="interestTimespan"
 						onChange={(e) => {
-							setInterestTimespan(e.target.value);
+							setInterestTimespan(e.target.value as TimePeriod);
 						}}
 					>
-						<option value="day">Day</option>
-						<option value="week">Week</option>
-						<option value="month">Month</option>
+						<option value="DAY">Day</option>
+						<option value="WEEK">Week</option>
+						<option value="MONTH">Month</option>
 					</select>
+					{(() => {
+						return interestTimespan === TimePeriod.Month ? (
+							<em>
+								<br />
+								Months are defined as every 30 days from debt
+								creation
+							</em>
+						) : (
+							""
+						);
+					})()}
 				</div>
 				<div>
 					<label htmlFor="collateral">Collateral:</label>

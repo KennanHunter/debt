@@ -5,6 +5,7 @@ interface ListGroupProps {
 	debtor: string;
 	arr: DebtEntryWithID[];
 }
+
 function ListGroup({ debtor, arr }: ListGroupProps) {
 	return (
 		<div>

@@ -11,7 +11,7 @@ export const Login = () => {
 		if (user) {
 			router.push("/");
 		}
-	}, [user]);
+	}, [user, router]);
 
 	return (
 		<div>

@@ -1,15 +1,40 @@
+import Link from "next/link";
 import { DebtEntryWithID } from "../firebase/dbTypes";
+import { processInterest } from "../util/processInterest";
 
-function ListItem({ reason, value, interest }: DebtEntryWithID) {
+function ListItem(debtEntry: DebtEntryWithID) {
 	return (
 		<li>
-			<div>
-				<h3>{reason}</h3>
-				<p>
-					${value.toFixed(2)} <br />
-					at {interest}% Interest
-				</p>
-			</div>
+			<Link href="/">
+				<div>
+					<h3>{debtEntry.reason}</h3>
+					{(() => {
+						return debtEntry.interest ? (
+							<p>
+								$
+								{processInterest(
+									debtEntry
+								).adjustedValue.toFixed(2)}{" "}
+								<br />
+								(${debtEntry.value.toFixed(2)} before interest)
+								<br />
+								at {debtEntry.interest}% interest per{" "}
+								{debtEntry.interestTimespan.toLocaleLowerCase()}
+								<br />
+								created{" "}
+								{debtEntry.creationDate.toDate().toDateString()}
+							</p>
+						) : (
+							<p>
+								${debtEntry.value.toFixed(2)}
+								<br />
+								created{" "}
+								{debtEntry.creationDate.toDate().toDateString()}
+							</p>
+						);
+					})()}
+				</div>
+			</Link>
 		</li>
 	);
 }
