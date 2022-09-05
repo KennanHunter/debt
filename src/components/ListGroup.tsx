@@ -1,4 +1,4 @@
-import { DebtEntryWithID } from "../firebase/types";
+import { DebtEntryWithID } from "../firebase/dbTypes";
 import ListItem from "./ListItem";
 
 interface ListGroupProps {

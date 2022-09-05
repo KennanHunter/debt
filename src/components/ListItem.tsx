@@ -1,4 +1,4 @@
-import { DebtEntryWithID } from "../firebase/types";
+import { DebtEntryWithID } from "../firebase/dbTypes";
 
 function ListItem({ reason, value, interest }: DebtEntryWithID) {
 	return (

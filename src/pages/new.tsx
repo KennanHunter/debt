@@ -1,9 +1,10 @@
 // TODO: Fetch already known debtors and give it as suggestion
 
-import { addDoc } from "firebase/firestore";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { DebtEntry } from "../firebase/dbTypes";
 import { auth, debtCollection } from "../firebase/firebase";
 
 const New = () => {
@@ -22,9 +23,11 @@ const New = () => {
 			debtor,
 			value: amount,
 			interest,
+			interestTimespan,
 			collateral,
 			uid: user.uid,
-		});
+			creationDate: serverTimestamp(),
+		} as DebtEntry);
 		router.push("/");
 	};
 
@@ -33,13 +36,15 @@ const New = () => {
 	const [amount, setAmount] = useState<number | string>(0);
 
 	const [interest, setInterest] = useState(0);
+	const [interestTimespan, setInterestTimespan] = useState("day");
 
 	const [collateral, setCollateral] = useState("");
 
 	return (
 		<div>
+			<noscript>Must have Javascript enabled to use this form</noscript>
 			<h1>New</h1>
-			<form onSubmit={submitNewDebt}>
+			<form onSubmit={submitNewDebt} autoComplete="off">
 				<div>
 					<label htmlFor="reason">Reason:</label>
 					<input
@@ -52,7 +57,6 @@ const New = () => {
 						}}
 					/>
 				</div>
-
 				<div>
 					<label htmlFor="debtor">Debtor:</label>
 					<input
@@ -96,8 +100,13 @@ const New = () => {
 						}}
 					/>
 					% increase every
-					{/* Unimplemented */}
-					<select name="timePeriod" id="timePeriod">
+					<select
+						name="interestTimespan"
+						id="interestTimespan"
+						onChange={(e) => {
+							setInterestTimespan(e.target.value);
+						}}
+					>
 						<option value="day">Day</option>
 						<option value="week">Week</option>
 						<option value="month">Month</option>
