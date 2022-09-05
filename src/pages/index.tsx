@@ -12,7 +12,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import ListGroup from "../components/ListGroup";
 import { auth, db } from "../firebase/firebase";
-import { DebtEntryWithID } from "../firebase/types";
+import { DebtEntryWithID } from "../firebase/dbTypes";
 
 const Home: NextPage = () => {
 	const [user] = useAuthState(auth);
