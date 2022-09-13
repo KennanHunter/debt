@@ -17,31 +17,31 @@ jobs:
               with:
                   node-version: "16.13.0"
                 
-            - name: cd into app dir
-              run: cd app
-
             - name: Cache Dependencies
               id: cache-dependencies
               uses: actions/cache@v3
               with:
-                  path: node_modules
+                  path: ./app/node_modules
                   key: ${{hashFiles('package.json')}}-modules
 
             - name: Cache Lock
               id: cache-lock
               uses: actions/cache@v3
               with:
-                  path: package-lock.json
+                  path: ./app/package-lock.json
                   key: ${{hashFiles('package.json')}}-lock
 
             - name: Install Dependencies
               if: steps.cache-dependencies.outputs.cache-hit != 'true'
+              working-directory: ./app/
               run: yarn install
 
             - name: Build Next.js
+              working-directory: ./app/
               run: yarn build
 
             - uses: FirebaseExtended/action-hosting-deploy@v0
+              working-directory: ./app/
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEBTAPI }}"
