@@ -5,7 +5,7 @@ import { processInterest } from "../util/processInterest";
 function ListItem(debtEntry: DebtEntryWithID) {
 	return (
 		<li>
-			<Link href="/">
+			<Link href={"/"+ debtEntry.id}>
 				<div>
 					<h3>{debtEntry.reason}</h3>
 					{(() => {

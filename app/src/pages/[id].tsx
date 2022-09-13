@@ -1,16 +1,22 @@
-// TODO: Fetch already known debtors and give it as suggestion
-
-import { addDoc, Timestamp } from "firebase/firestore";
+import { addDoc, doc, Timestamp } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { DebtEntry } from "../firebase/dbTypes";
-import { auth, debtCollection } from "../firebase/firebase";
+import { auth, db, debtCollection } from "../firebase/firebase";
 import { TimePeriod } from "../firebase/timePeriod";
 
 const New = () => {
 	const [user] = useAuthState(auth);
 	const router = useRouter();
+
+	const { id } = router.query;
+
+	const [preexistingData, loading, error, snapshot] = useDocumentData(
+		doc(db, "debts", id || "")
+	);
+	
 
 	const submitNewDebt = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -32,12 +38,18 @@ const New = () => {
 		router.push("/");
 	};
 
+	const [editMode, setEditMode] = useState(id === "new");
 	const [reason, setReason] = useState("");
 	const [debtor, setDebtor] = useState("");
 	const [amount, setAmount] = useState<number | string>(0);
 
 	const [interest, setInterest] = useState(0);
 	const [interestTimespan, setInterestTimespan] = useState(TimePeriod.Day);
+
+	useEffect(() => {
+		if (!preexistingData) alert("ugh");
+		return;
+	});
 
 	useEffect(() => {
 		console.log(interestTimespan);
@@ -48,16 +60,18 @@ const New = () => {
 	return (
 		<div>
 			<noscript>Must have Javascript enabled to use this form</noscript>
-			<h1>New</h1>
+			<h1>{id ? reason : "New"}</h1>
 			<form onSubmit={submitNewDebt} autoComplete="off">
 				<div>
 					<label htmlFor="reason">Reason:</label>
+
 					<input
 						type="text"
 						name="reason"
 						id="reason"
 						value={reason}
 						onChange={(e) => {
+							if (!editMode) return;
 							setReason(e.target.value);
 						}}
 					/>
@@ -70,6 +84,7 @@ const New = () => {
 						id="debtor"
 						value={debtor}
 						onChange={(e) => {
+							if (!editMode) return;
 							setDebtor(e.target.value);
 						}}
 					/>
@@ -83,6 +98,7 @@ const New = () => {
 						id="amount"
 						value={amount}
 						onChange={(e) => {
+							if (!editMode) return;
 							if (e.target.value === "") setAmount("");
 							setAmount(Number(e.target.value));
 						}}
@@ -101,6 +117,7 @@ const New = () => {
 						id="interest"
 						value={interest}
 						onChange={(e) => {
+							if (!editMode) return;
 							setInterest(Number(e.target.value));
 						}}
 					/>
@@ -109,6 +126,7 @@ const New = () => {
 						name="interestTimespan"
 						id="interestTimespan"
 						onChange={(e) => {
+							if (!editMode) return;
 							setInterestTimespan(e.target.value as TimePeriod);
 						}}
 					>
@@ -135,11 +153,15 @@ const New = () => {
 						name="collateral"
 						id="collateral"
 						onChange={(e) => {
+							if (!editMode) return;
 							setCollateral(e.target.value);
 						}}
 					/>
 				</div>
-				<input type="submit" value="Create new Debt" />
+				{(() => {
+					if (editMode)
+						return <input type="submit" value="Create new Debt" />;
+				})()}
 			</form>
 		</div>
 	);
