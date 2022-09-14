@@ -33,15 +33,12 @@ jobs:
 
             - name: Install Dependencies
               if: steps.cache-dependencies.outputs.cache-hit != 'true'
-              working-directory: 
               run: cd ./app/ && yarn install
 
             - name: Build Next.js
-              working-directory: ./app/
               run: cd ./app/ && yarn build
 
             - uses: FirebaseExtended/action-hosting-deploy@v0
-              working-directory:
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEBTAPI }}"
