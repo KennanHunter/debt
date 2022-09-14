@@ -14,7 +14,7 @@ const New = () => {
 	const { id } = router.query;
 
 	const [preexistingData, loading, error, snapshot] = useDocumentData(
-		doc(db, "debts", id || "")
+		// doc(db, "debts", id || "")
 	);
 	
 
