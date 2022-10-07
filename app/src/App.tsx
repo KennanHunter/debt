@@ -1,17 +1,19 @@
-import { AppShell, Header, Navbar, Text } from "@mantine/core";
+import { AppShell } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppBar from "./lib/components/scaffold/AppBar";
+import { auth } from "./lib/firebase/firebase";
 import Index, { IndexLoader } from "./router/Index";
+import Login, { LoginLoader } from "./router/Login";
 
 function App() {
 	const router = createBrowserRouter([
 		{ path: "/", element: <Index />, loader: IndexLoader },
+		{ path: "/login", element: <Login />, loader: LoginLoader },
 	]);
 
 	return (
 		<AppShell
 			padding="md"
-			// navbar={}
 			header={<AppBar />}
 			styles={(theme) => ({
 				main: {
