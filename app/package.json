@@ -10,6 +10,7 @@
 		"format": "prettier -w ."
 	},
 	"dependencies": {
+		"@emotion/react": "^11.10.4",
 		"@mantine/core": "^5.5.4",
 		"@mantine/hooks": "^5.5.4",
 		"@mantine/styles": "^5.5.4",

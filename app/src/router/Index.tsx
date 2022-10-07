@@ -1,4 +1,6 @@
-import { Text } from "@mantine/core";
+import { useTheme } from "@emotion/react";
+import { Navbar, Text } from "@mantine/core";
+import DebtorList from "../lib/components/scaffold/DebtorList";
 import { useDebtStore } from "../lib/stores/debt";
 
 export const IndexLoader = () => {
@@ -7,14 +9,16 @@ export const IndexLoader = () => {
 
 const Index = () => {
 	const debts = useDebtStore((state) => state.debts);
-
 	return (
 		<div>
-			{debts.map((state) => (
-				<div>
-					<Text>{state.value}</Text>
-				</div>
-			))}
+			<DebtorList />
+			<div>
+				{debts.map((state) => (
+					<div>
+						<Text>{state.value}</Text>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };

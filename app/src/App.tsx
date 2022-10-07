@@ -1,4 +1,4 @@
-import { AppShell, Text } from "@mantine/core";
+import { AppShell, Header, Navbar, Text } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppBar from "./lib/components/scaffold/AppBar";
 import Index, { IndexLoader } from "./router/Index";
@@ -9,9 +9,20 @@ function App() {
 	]);
 
 	return (
-		<AppShell header={<AppBar />}>
-			<Text>Epic</Text>
-			<RouterProvider router={router} />
+		<AppShell
+			padding="md"
+			// navbar={}
+			header={<AppBar />}
+			styles={(theme) => ({
+				main: {
+					backgroundColor:
+						theme.colorScheme === "dark"
+							? theme.colors.dark[8]
+							: theme.colors.gray[0],
+				},
+			})}
+		>
+			<RouterProvider router={router}></RouterProvider>
 		</AppShell>
 	);
 }
