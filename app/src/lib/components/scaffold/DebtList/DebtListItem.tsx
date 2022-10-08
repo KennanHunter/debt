@@ -1,4 +1,4 @@
-import { Box } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { DebtEntry } from "../../../types/debt";
 
@@ -29,7 +29,12 @@ const DebtListItem = ({ debt }: { debt: DebtEntry }) => {
 				"/u/" + encodeURIComponent(debt.debtor) + "/"
 				// encodeURIComponent(debt)
 			}
-		></Box>
+		>
+			<Group position="apart">
+				<span>{debt.reason}</span>
+				<span style={{ color: "green" }}>${debt.value.toFixed(2)}</span>
+			</Group>
+		</Box>
 	);
 };
 

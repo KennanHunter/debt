@@ -15,7 +15,7 @@ const DebtList = ({ name }: { name: string }) => {
 		value
 			?.filter((value) => (value as DebtEntry).debtor === name)
 			.map((value) => {
-				console.dir({ "Value.id result": value });
+				console.dir({ Value: value });
 				return value;
 			}) || [];
 
