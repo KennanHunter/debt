@@ -3,8 +3,9 @@ import { collection, query, where } from "firebase/firestore";
 import { useMemo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../firebase/firebase";
-import { sortByDebtor } from "../../util/sortByDebtor";
+import { auth, db } from "../../../firebase/firebase";
+import { sortByDebtor } from "../../../util/sortByDebtor";
+import { totalDebtValue } from "../../../util/totalDebtValue";
 import DebtorListItem from "./DebtorListItem";
 
 const DebtorList = () => {
@@ -26,10 +27,7 @@ const DebtorList = () => {
 							You are currently owed
 						</Text>
 						<Text sx={{ textAlign: "center", color: "green" }}>
-							$
-							{/* {totalDebtValue(
-								users as any as DebtEntry[]
-							).toFixed(2)} */}
+							${totalDebtValue(value?.docs || []).toFixed(2)}
 						</Text>
 					</Stack>
 				</Navbar.Section>

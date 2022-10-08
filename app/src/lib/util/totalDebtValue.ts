@@ -1,8 +1,11 @@
-import { DebtEntry } from "../types/debt";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
-export const totalDebtValue = (debts: DebtEntry[]): number => {
-	return debts.reduce(
-		(previousValue, currentValue) => previousValue + currentValue.value,
+export const totalDebtValue = (
+	debtsData: QueryDocumentSnapshot<DocumentData>[]
+): number => {
+	return debtsData.reduce(
+		(previousValue, currentValue) =>
+			previousValue + (currentValue.data() as DocumentData).value,
 		0
 	);
 };

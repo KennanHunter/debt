@@ -1,7 +1,7 @@
 import { Box, Group } from "@mantine/core";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { DebtEntry } from "../../types/debt";
+import { DebtEntry } from "../../../types/debt";
 
 interface DebtorListItemProps {
 	debtor: string;
