@@ -2,13 +2,24 @@ import { AppShell } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppBar from "./lib/components/scaffold/AppBar";
 import { auth } from "./lib/firebase/firebase";
+import Error from "./router/Error";
 import Index, { IndexLoader } from "./router/Index";
 import Login, { LoginLoader } from "./router/Login";
 
 function App() {
 	const router = createBrowserRouter([
-		{ path: "/", element: <Index />, loader: IndexLoader },
-		{ path: "/login", element: <Login />, loader: LoginLoader },
+		{
+			path: "/",
+			element: <Index />,
+			loader: IndexLoader,
+			errorElement: <Error />,
+		},
+		{
+			path: "/login",
+			element: <Login />,
+			loader: LoginLoader,
+			errorElement: <Error />,
+		},
 	]);
 
 	return (

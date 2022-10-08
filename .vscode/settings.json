@@ -1,9 +1,4 @@
 {
-	"cSpell.words": [
-		"appspot",
-		"firebaseapp",
-		"Timespan",
-		"Yprv"
-	],
+	"cSpell.words": ["appspot", "firebaseapp", "Timespan", "Yprv", "zustand"],
 	"editor.tabSize": 4
 }

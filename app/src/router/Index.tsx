@@ -17,7 +17,7 @@ const Index = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!user) {
+		if (!user && !loading) {
 			navigate("/login");
 		}
 	}, [user]);

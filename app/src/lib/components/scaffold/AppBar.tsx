@@ -1,9 +1,11 @@
-import { Center, Header, Navbar, Text } from "@mantine/core";
+import { Center, Group, Header } from "@mantine/core";
 
 const AppBar = () => {
 	return (
 		<Header height={60} p="xs">
-			<Text>Debt</Text>
+			<Group>
+				<Center>Debt</Center>
+			</Group>
 		</Header>
 	);
 };
