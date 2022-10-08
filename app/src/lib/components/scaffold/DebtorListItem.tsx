@@ -1,7 +1,18 @@
 import { Box, Group } from "@mantine/core";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { DebtEntry } from "../../types/debt";
 
-const DebtorListItem = (props: { name: string; value: number }) => {
+interface DebtorListItemProps {
+	debtor: string;
+	arr: DebtEntry[];
+}
+
+const DebtorListItem = ({ debtor, arr }: DebtorListItemProps) => {
+	const sum = useMemo(
+		() => arr.reduce((prev, current) => prev + current.value, 0),
+		[arr]
+	);
 	return (
 		<Box
 			sx={(theme) => ({
@@ -24,13 +35,11 @@ const DebtorListItem = (props: { name: string; value: number }) => {
 				},
 			})}
 			component={Link}
-			to={"/u/" + props.name}
+			to={"/u/" + encodeURIComponent(debtor)}
 		>
 			<Group position="apart">
-				<span>{props.name}</span>
-				<span style={{ color: "green" }}>
-					${props.value.toFixed(2)}
-				</span>
+				<span>{debtor}</span>
+				<span style={{ color: "green" }}>${sum.toFixed(2)}</span>
 			</Group>
 		</Box>
 	);

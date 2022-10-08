@@ -1,26 +1,25 @@
-import { Center, Loader, Text } from "@mantine/core";
+import { Center, Loader } from "@mantine/core";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import DebtorList from "../lib/components/scaffold/DebtorList";
 import { auth } from "../lib/firebase/firebase";
-import { useDebtStore } from "../lib/stores/debt";
 
 export const IndexLoader = () => {
 	return [];
 };
 
 const Index = () => {
-	const debts = useDebtStore((state) => state.debts);
-	const [user, loading, error] = useAuthState(auth);
+	const [user, loading] = useAuthState(auth);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		console.dir(user);
 		if (!user && !loading) {
 			navigate("/login");
 		}
-	}, [user]);
+	}, [user, loading]);
 
 	if (loading)
 		return (
@@ -32,13 +31,7 @@ const Index = () => {
 	return (
 		<div>
 			<DebtorList />
-			<div>
-				{debts.map((state) => (
-					<div>
-						<Text>{state.value}</Text>
-					</div>
-				))}
-			</div>
+			<Outlet />
 		</div>
 	);
 };

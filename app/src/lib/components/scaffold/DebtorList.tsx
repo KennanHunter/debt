@@ -1,13 +1,22 @@
 import { Navbar, Stack, Text } from "@mantine/core";
-import { DebtEntry } from "../../types/debt";
-import { totalDebtValue } from "../../util/totalDebtValue";
+import { collection, query, where } from "firebase/firestore";
+import { useMemo } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { auth, db } from "../../firebase/firebase";
+import { sortByDebtor } from "../../util/sortByDebtor";
 import DebtorListItem from "./DebtorListItem";
 
 const DebtorList = () => {
-	const users = [
-		{ name: "Kennan", value: 10 },
-		{ name: "epic", value: 20 },
-	];
+	const [user] = useAuthState(auth);
+	const [value, loading, error] = useCollection(
+		query(collection(db, "debts"), where("uid", "==", user?.uid))
+	);
+	const tieredDebtors = useMemo(
+		() => sortByDebtor(value?.docs || []),
+		[value]
+	);
+
 	return (
 		<div>
 			<Navbar p="xs" width={{ base: 300 }}>
@@ -18,17 +27,29 @@ const DebtorList = () => {
 						</Text>
 						<Text sx={{ textAlign: "center", color: "green" }}>
 							$
-							{totalDebtValue(
+							{/* {totalDebtValue(
 								users as any as DebtEntry[]
-							).toFixed(2)}
+							).toFixed(2)} */}
 						</Text>
 					</Stack>
 				</Navbar.Section>
 				<Navbar.Section grow mt="md">
 					<Stack>
-						{users.map((user) => (
-							<DebtorListItem {...user} />
-						))}
+						{(() => {
+							let ret = [];
+
+							for (let [debtor, arr] of tieredDebtors) {
+								ret.push(
+									<DebtorListItem
+										key={debtor}
+										arr={arr}
+										debtor={debtor}
+									/>
+								);
+							}
+
+							return ret;
+						})()}
 					</Stack>
 				</Navbar.Section>
 				<Navbar.Section>

@@ -1,4 +1,4 @@
-// import { Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { TimePeriod } from "./timePeriod";
 
 // export interface DebtEntryWithInflation extends DebtEntry {
@@ -7,6 +7,7 @@ import { TimePeriod } from "./timePeriod";
 // }
 
 export interface DebtEntry {
+	id: string;
 	uid: string;
 
 	debtor: string;
@@ -16,5 +17,5 @@ export interface DebtEntry {
 	interest: number;
 	interestTimespan: TimePeriod;
 
-	// creationDate: Timestamp;
+	creationDate: Timestamp;
 }
