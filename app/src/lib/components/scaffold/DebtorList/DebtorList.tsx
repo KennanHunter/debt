@@ -1,22 +1,15 @@
 import { Navbar, Stack, Text } from "@mantine/core";
-import { collection, query, where } from "firebase/firestore";
 import { useMemo } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../../firebase/firebase";
+import { useDebts } from "../../../hooks/useDebts";
+import { useUser } from "../../../hooks/useUser";
 import { sortByDebtor } from "../../../util/sortByDebtor";
 import { totalDebtValue } from "../../../util/totalDebtValue";
 import DebtorListItem from "./DebtorListItem";
 
 const DebtorList = () => {
-	const [user] = useAuthState(auth);
-	const [value, loading, error] = useCollection(
-		query(collection(db, "debts"), where("uid", "==", user?.uid))
-	);
-	const tieredDebtors = useMemo(
-		() => sortByDebtor(value?.docs || []),
-		[value]
-	);
+	const [user] = useUser();
+	const [value, loading, error] = useDebts();
+	const tieredDebtors = useMemo(() => sortByDebtor(value), [value]);
 
 	return (
 		<div>
@@ -27,7 +20,7 @@ const DebtorList = () => {
 							You are currently owed
 						</Text>
 						<Text sx={{ textAlign: "center", color: "green" }}>
-							${totalDebtValue(value?.docs || []).toFixed(2)}
+							${totalDebtValue(value).toFixed(2)}
 						</Text>
 					</Stack>
 				</Navbar.Section>

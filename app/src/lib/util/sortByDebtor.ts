@@ -1,27 +1,22 @@
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import { DebtEntry } from "../types/debt";
+import { DebtEntryWithId } from "../types/debt";
 
 export const sortByDebtor = (
-	docs: QueryDocumentSnapshot<DocumentData>[]
-): Map<string, DebtEntry[]> => {
+	debts: DebtEntryWithId[]
+): Map<string, DebtEntryWithId[]> => {
 	// Schema: Debtor, Entries under said debtor
-	const tieredData = new Map<string, DebtEntry[]>();
+	const tieredData = new Map<string, DebtEntryWithId[]>();
 
-	docs.map((doc) => {
-		const data = { id: doc.id, ...doc.data() } as DebtEntry;
-
+	debts.map((debt) => {
 		// Only add new data if not already in it
-		if (tieredData.has(data.debtor)) return;
+		if (tieredData.has(debt.debtor)) return;
 
 		tieredData.set(
-			data.debtor,
-			docs
+			debt.debtor,
+			debts
 				// Get data that belongs to debtor
 				.filter((val) => {
-					return val.data().debtor === data.debtor;
+					return val.debtor === debt.debtor;
 				})
-				// Transform data to raw rep
-				.map((val) => ({ id: val.id, ...val.data() } as DebtEntry))
 		);
 	});
 

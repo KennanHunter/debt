@@ -1,19 +1,13 @@
 import { Navbar, Stack } from "@mantine/core";
-import { collection, query, where } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../../firebase/firebase";
-import { DebtEntry } from "../../../types/debt";
+import { useDebts } from "../../../hooks/useDebts";
 import DebtListItem from "./DebtListItem";
 
 const DebtList = ({ name }: { name: string }) => {
-	const [user] = useAuthState(auth);
-	const [value, loading, error] = useCollectionData(
-		query(collection(db, "debts"), where("uid", "==", user?.uid))
-	);
+	const [value, loading, error] = useDebts();
+
 	const debts =
 		value
-			?.filter((value) => (value as DebtEntry).debtor === name)
+			?.filter((value) => value.debtor === name)
 			.map((value) => {
 				console.dir({ Value: value });
 				return value;
@@ -24,7 +18,7 @@ const DebtList = ({ name }: { name: string }) => {
 			<Navbar.Section>
 				<Stack>
 					{debts.map((debt) => (
-						<DebtListItem debt={debt as DebtEntry} />
+						<DebtListItem debt={debt} />
 					))}
 				</Stack>
 			</Navbar.Section>

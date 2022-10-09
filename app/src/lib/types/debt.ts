@@ -6,8 +6,11 @@ import { TimePeriod } from "./timePeriod";
 // 	history?: number[];
 // }
 
-export interface DebtEntry {
+export interface DebtEntryWithId extends DebtEntry {
 	id: string;
+}
+
+export interface DebtEntry {
 	uid: string;
 
 	debtor: string;

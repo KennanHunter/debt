@@ -1,8 +1,8 @@
 import { Box, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { DebtEntry } from "../../../types/debt";
+import { DebtEntryWithId } from "../../../types/debt";
 
-const DebtListItem = ({ debt }: { debt: DebtEntry }) => {
+const DebtListItem = ({ debt }: { debt: DebtEntryWithId }) => {
 	return (
 		<Box
 			sx={(theme) => ({
