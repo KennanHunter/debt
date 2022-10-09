@@ -1,6 +1,7 @@
 import { Box, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { DebtEntryWithId } from "../../../types/debt";
+import Money from "../../common/Money";
 
 const DebtListItem = ({ debt }: { debt: DebtEntryWithId }) => {
 	return (
@@ -34,7 +35,7 @@ const DebtListItem = ({ debt }: { debt: DebtEntryWithId }) => {
 		>
 			<Group position="apart">
 				<span>{debt.reason}</span>
-				<span style={{ color: "green" }}>${debt.value.toFixed(2)}</span>
+				<Money value={debt.value} />
 			</Group>
 		</Box>
 	);

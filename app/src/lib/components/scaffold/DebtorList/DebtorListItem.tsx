@@ -2,6 +2,7 @@ import { Box, Group } from "@mantine/core";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { DebtEntry } from "../../../types/debt";
+import Money from "../../common/Money";
 
 interface DebtorListItemProps {
 	debtor: string;
@@ -39,7 +40,7 @@ const DebtorListItem = ({ debtor, arr }: DebtorListItemProps) => {
 		>
 			<Group position="apart">
 				<span>{debtor}</span>
-				<span style={{ color: "green" }}>${sum.toFixed(2)}</span>
+				<Money value={sum} />
 			</Group>
 		</Box>
 	);

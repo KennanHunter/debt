@@ -11,6 +11,7 @@ import { IconEdit, IconTrash, IconX } from "@tabler/icons";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Edit from "../lib/components/common/Edit";
+import Load from "../lib/components/common/Load";
 import View from "../lib/components/common/View";
 import { useDebt } from "../lib/hooks/useDebt";
 import { DebtEntryWithId } from "../lib/types/debt";
@@ -29,8 +30,10 @@ export const DebtLoader = ({
 
 const Debt = ({}) => {
 	const id = useLoaderData() as ReturnType<typeof DebtLoader>;
-	const [debt] = useDebt(id);
+	const [debt, loading] = useDebt(id);
 	const [editable, setEditable] = useState(false);
+
+	if (loading) return <Load />;
 
 	return (
 		<Box>

@@ -4,6 +4,7 @@ import { useDebts } from "../../../hooks/useDebts";
 import { useUser } from "../../../hooks/useUser";
 import { sortByDebtor } from "../../../util/sortByDebtor";
 import { totalDebtValue } from "../../../util/totalDebtValue";
+import Money from "../../common/Money";
 import DebtorListItem from "./DebtorListItem";
 
 const DebtorList = () => {
@@ -20,7 +21,7 @@ const DebtorList = () => {
 							You are currently owed
 						</Text>
 						<Text sx={{ textAlign: "center", color: "green" }}>
-							${totalDebtValue(value).toFixed(2)}
+							<Money value={totalDebtValue(value)} />{" "}
 						</Text>
 					</Stack>
 				</Navbar.Section>

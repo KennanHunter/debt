@@ -1,5 +1,5 @@
-import { Center, Loader } from "@mantine/core";
 import { Outlet } from "react-router-dom";
+import Load from "../lib/components/common/Load";
 import DebtorList from "../lib/components/scaffold/DebtorList/DebtorList";
 import { useUser } from "../lib/hooks/useUser";
 
@@ -10,12 +10,7 @@ export const IndexLoader = () => {
 const Index = () => {
 	const [_, loading] = useUser();
 
-	if (loading)
-		return (
-			<Center>
-				<Loader />
-			</Center>
-		);
+	if (loading) return <Load />;
 
 	return (
 		<div>
