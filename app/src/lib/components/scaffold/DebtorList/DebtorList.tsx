@@ -1,5 +1,6 @@
-import { Navbar, Stack, Text } from "@mantine/core";
+import { Button, Center, Navbar, Stack, Text } from "@mantine/core";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useDebts } from "../../../hooks/useDebts";
 import { useUser } from "../../../hooks/useUser";
 import { sortByDebtor } from "../../../util/sortByDebtor";
@@ -45,7 +46,11 @@ const DebtorList = () => {
 					</Stack>
 				</Navbar.Section>
 				<Navbar.Section>
-					<Text>TODO: Settings</Text>
+					<Center>
+						<Button color={"green"} component={Link} to="/new">
+							New Debt
+						</Button>
+					</Center>
 				</Navbar.Section>
 			</Navbar>
 		</div>

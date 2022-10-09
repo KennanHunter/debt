@@ -6,6 +6,7 @@ import Debtor, { DebtorLoader } from "./router/Debtor";
 import Error from "./router/Error";
 import Index, { IndexLoader } from "./router/Index";
 import Login, { LoginLoader } from "./router/Login";
+import New, { NewLoader } from "./router/New";
 
 function App() {
 	const router = createBrowserRouter([
@@ -29,6 +30,7 @@ function App() {
 				},
 			],
 		},
+		{ path: "/new", element: <New />, loader: NewLoader },
 		{
 			path: "/login",
 			element: <Login />,
