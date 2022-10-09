@@ -18,7 +18,7 @@ const DebtList = ({ name }: { name: string }) => {
 			<Navbar.Section>
 				<Stack>
 					{debts.map((debt) => (
-						<DebtListItem debt={debt} />
+						<DebtListItem key={debt.id} debt={debt} />
 					))}
 				</Stack>
 			</Navbar.Section>
