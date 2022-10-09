@@ -1,6 +1,7 @@
 import { AppShell } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppBar from "./lib/components/scaffold/AppBar";
+import Debt, { DebtLoader } from "./router/Debt";
 import Debtor, { DebtorLoader } from "./router/Debtor";
 import Error from "./router/Error";
 import Index, { IndexLoader } from "./router/Index";
@@ -15,9 +16,16 @@ function App() {
 			errorElement: <Error />,
 			children: [
 				{
-					path: "u/:name",
+					path: "u/:name/",
 					element: <Debtor />,
 					loader: DebtorLoader,
+					children: [
+						{
+							path: ":id/",
+							element: <Debt />,
+							loader: DebtLoader,
+						},
+					],
 				},
 			],
 		},

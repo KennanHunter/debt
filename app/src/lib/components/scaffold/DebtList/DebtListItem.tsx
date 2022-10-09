@@ -26,8 +26,10 @@ const DebtListItem = ({ debt }: { debt: DebtEntryWithId }) => {
 			})}
 			component={Link}
 			to={
-				"/u/" + encodeURIComponent(debt.debtor) + "/"
-				// encodeURIComponent(debt)
+				"/u/" +
+				encodeURIComponent(debt.debtor) +
+				"/" +
+				encodeURIComponent(debt.id)
 			}
 		>
 			<Group position="apart">
