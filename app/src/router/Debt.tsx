@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { IconEdit, IconTrash, IconX } from "@tabler/icons";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Edit from "../lib/components/common/Edit";
@@ -19,6 +19,7 @@ import View from "../lib/components/common/View";
 import { db } from "../lib/firebase/firebase";
 import { useDebt } from "../lib/hooks/useDebt";
 import { DebtEntryWithId } from "../lib/types/debt";
+import { stripId } from "../lib/util/stripId";
 
 export const DebtLoader = ({
 	params,
@@ -86,7 +87,15 @@ const Debt = ({}) => {
 					<Divider />
 				</div>
 				{editable ? (
-					<Edit debt={debt as DebtEntryWithId} onSubmit={() => {}} />
+					<Edit
+						debt={debt as DebtEntryWithId}
+						onSubmit={(form) => {
+							setDoc(doc(db, "debts", form.values["id"]), {
+								...stripId(form.values),
+							});
+							setEditable(false);
+						}}
+					/>
 				) : (
 					<View debt={debt as DebtEntryWithId} />
 				)}
