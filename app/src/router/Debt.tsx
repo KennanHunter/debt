@@ -18,7 +18,7 @@ import Load from "../lib/components/common/Load";
 import View from "../lib/components/common/View";
 import { db } from "../lib/firebase/firebase";
 import { useDebt } from "../lib/hooks/useDebt";
-import { DebtEntryWithId } from "../lib/types/debt";
+import { DebtEntryProcessed, DebtEntryWithId } from "../lib/types/debt";
 import { stripId } from "../lib/util/stripId";
 
 export const DebtLoader = ({
@@ -88,7 +88,7 @@ const Debt = ({}) => {
 				</div>
 				{editable ? (
 					<Edit
-						debt={debt as DebtEntryWithId}
+						debt={debt as DebtEntryProcessed}
 						onSubmit={(form) => {
 							setDoc(doc(db, "debts", form.values["id"]), {
 								...stripId(form.values),
@@ -97,7 +97,7 @@ const Debt = ({}) => {
 						}}
 					/>
 				) : (
-					<View debt={debt as DebtEntryWithId} />
+					<View debt={debt as DebtEntryProcessed} />
 				)}
 			</Paper>
 		</Box>

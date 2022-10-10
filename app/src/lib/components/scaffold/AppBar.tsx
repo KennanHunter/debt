@@ -6,6 +6,7 @@ import { useSignOut } from "../../hooks/useSignOut";
 
 const defaultPFP =
 	"https://raw.githubusercontent.com/cat-milk/Anime-Girls-Holding-Programming-Books/master/Javascript/Chisaki_Tapris_Holding_JavaScript_Scope_and_Closure.png";
+
 const AppBar = () => {
 	const [user] = useAuthState(auth);
 	const signOut = useSignOut();
@@ -20,7 +21,7 @@ const AppBar = () => {
 						component={"a"}
 						href={"https://github.com/KennanHunter/debt/"}
 					>
-						<IconBrandGithub size={45} />
+						<IconBrandGithub height={45} width={45} />
 					</ActionIcon>
 
 					{user ? (

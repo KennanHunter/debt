@@ -19,16 +19,6 @@ const DebtorList = () => {
 	return (
 		<div>
 			<Navbar p="xs" width={{ base: 300 }}>
-				<Navbar.Section>
-					<Stack>
-						<Text sx={{ textAlign: "center" }}>
-							You are currently owed
-						</Text>
-						<Text sx={{ textAlign: "center", color: "green" }}>
-							<Money value={totalDebtValue(value)} />{" "}
-						</Text>
-					</Stack>
-				</Navbar.Section>
 				<Navbar.Section grow mt="md">
 					<Stack>
 						{(() => {
