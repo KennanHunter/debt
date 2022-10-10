@@ -9,7 +9,6 @@ const DebtList = ({ name }: { name: string }) => {
 		value
 			?.filter((value) => value.debtor === name)
 			.map((value) => {
-				console.dir({ Value: value });
 				return value;
 			}) || [];
 
