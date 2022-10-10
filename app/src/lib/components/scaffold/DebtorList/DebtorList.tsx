@@ -5,6 +5,7 @@ import { useDebts } from "../../../hooks/useDebts";
 import { useUser } from "../../../hooks/useUser";
 import { sortByDebtor } from "../../../util/sortByDebtor";
 import { totalDebtValue } from "../../../util/totalDebtValue";
+import Load from "../../common/Load";
 import Money from "../../common/Money";
 import DebtorListItem from "./DebtorListItem";
 
@@ -12,6 +13,8 @@ const DebtorList = () => {
 	const [user] = useUser();
 	const [value, loading, error] = useDebts();
 	const tieredDebtors = useMemo(() => sortByDebtor(value), [value]);
+
+	if (loading) return <Load />;
 
 	return (
 		<div>

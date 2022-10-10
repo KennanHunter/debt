@@ -7,15 +7,18 @@ import { useUser } from "./useUser";
 export const useDebts = (): [
 	DebtEntryWithId[],
 	boolean,
-	FirestoreError | undefined
+	FirestoreError | Error | undefined
 ] => {
-	const [user] = useUser();
-	const [value, loading, error] = useCollection(
+	const [user, userLoading, userError] = useUser();
+
+	if (userLoading) return [[], userLoading, userError];
+
+	const [value, collectionLoading, collectionError] = useCollection(
 		query(collection(db, "debts"), where("uid", "==", user?.uid))
 	);
 
-	if (loading || error) {
-		return [[], loading, error];
+	if (collectionLoading || collectionError) {
+		return [[], collectionLoading, collectionError];
 	}
 
 	return [
