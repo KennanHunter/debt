@@ -6,7 +6,7 @@ import {
 	Paper,
 	Text,
 	Title,
-	Tooltip
+	Tooltip,
 } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { IconEdit, IconTrash, IconX } from "@tabler/icons";
