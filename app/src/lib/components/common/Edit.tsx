@@ -23,9 +23,11 @@ import { TimePeriod } from "../../types/timePeriod";
 const Edit = ({
 	onSubmit,
 	debt,
+	width = "100%",
 }: {
 	onSubmit: (form: UseFormReturnType<DebtEntryWithId>) => any;
 	debt: DebtEntryWithId;
+	width?: number | string;
 }) => {
 	const form = useForm({
 		initialValues: { ...(debt as DebtEntryWithId) },
@@ -42,7 +44,7 @@ const Edit = ({
 	}, [debt]);
 
 	return (
-		<Box p="xs" style={{ width: 700 }}>
+		<Box p="xs" style={{ width: width }}>
 			<Group grow>
 				<Stack>
 					<NumberInput

@@ -4,15 +4,19 @@ import {
 	Divider,
 	Group,
 	Paper,
+	Text,
 	Title,
 	Tooltip,
 } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
 import { IconEdit, IconTrash, IconX } from "@tabler/icons";
+import { deleteDoc, doc } from "firebase/firestore";
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Edit from "../lib/components/common/Edit";
 import Load from "../lib/components/common/Load";
 import View from "../lib/components/common/View";
+import { db } from "../lib/firebase/firebase";
 import { useDebt } from "../lib/hooks/useDebt";
 import { DebtEntryWithId } from "../lib/types/debt";
 
@@ -32,9 +36,28 @@ const Debt = ({}) => {
 	const id = useLoaderData() as ReturnType<typeof DebtLoader>;
 	const [debt, loading] = useDebt(id);
 	const [editable, setEditable] = useState(false);
+	const navigate = useNavigate();
 
 	if (loading) return <Load />;
+	if (!debt) throw new Error("Fuck");
 
+	const openDeleteConfirmationMenu = () =>
+		openConfirmModal({
+			title: "Confirm Delete",
+			children: (
+				<Text>
+					Are you sure you want to delete this Debt? This Action is
+					irreversible
+				</Text>
+			),
+			labels: { confirm: "Delete", cancel: "Cancel" },
+			confirmProps: { color: "red" },
+			onCancel: () => {},
+			onConfirm: () => {
+				deleteDoc(doc(db, "debts", debt?.id));
+				navigate("/u/" + encodeURIComponent(debt?.debtor));
+			},
+		});
 	return (
 		<Box>
 			<Paper p="sm">
@@ -52,7 +75,9 @@ const Debt = ({}) => {
 								</ActionIcon>
 							</Tooltip>
 							<Tooltip label={"Delete"}>
-								<ActionIcon>
+								<ActionIcon
+									onClick={openDeleteConfirmationMenu}
+								>
 									<IconTrash />
 								</ActionIcon>
 							</Tooltip>
