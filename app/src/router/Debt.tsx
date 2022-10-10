@@ -6,7 +6,7 @@ import {
 	Paper,
 	Text,
 	Title,
-	Tooltip,
+	Tooltip
 } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { IconEdit, IconTrash, IconX } from "@tabler/icons";
@@ -30,7 +30,7 @@ export const DebtLoader = ({
 }): string => {
 	if (!params.id) throw new Error("It seems this Debt doesn't exist anymore");
 
-	return params.id;
+	return decodeURIComponent(params.id);
 };
 
 const Debt = ({}) => {

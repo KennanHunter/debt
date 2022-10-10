@@ -9,7 +9,7 @@ export const DebtorLoader = ({
 }: {
 	params: { name?: string };
 }): string => {
-	return params.name || "";
+	return decodeURIComponent(params.name || "");
 };
 
 const Debtor = () => {
