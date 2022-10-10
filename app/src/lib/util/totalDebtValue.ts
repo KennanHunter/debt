@@ -1,4 +1,4 @@
-import { DebtEntryWithId } from "../types/debt";
+import { DebtEntryProcessed } from "../types/debt";
 
-export const totalDebtValue = (debts: DebtEntryWithId[]): number =>
-	debts.reduce((prev, cur) => prev + cur.value, 0);
+export const totalDebtValue = (debts: DebtEntryProcessed[]): number =>
+	debts.reduce((prev, cur) => prev + cur.adjustedValue, 0);

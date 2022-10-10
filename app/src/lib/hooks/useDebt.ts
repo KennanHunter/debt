@@ -2,6 +2,7 @@ import { doc, FirestoreError } from "@firebase/firestore";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { db } from "../firebase/firebase";
 import { DebtEntryWithId } from "../types/debt";
+import { processInterest } from "../util/processInterest";
 
 export const useDebt = (
 	id: string
@@ -11,7 +12,7 @@ export const useDebt = (
 	if (loading || error) return [undefined, loading, error];
 
 	return [
-		{ ...value?.data(), id: value?.id } as DebtEntryWithId,
+		processInterest({ ...value?.data(), id: value?.id } as DebtEntryWithId),
 		loading,
 		error,
 	];

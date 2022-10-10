@@ -1,9 +1,9 @@
 import { Box, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { DebtEntryWithId } from "../../../types/debt";
+import { DebtEntryProcessed } from "../../../types/debt";
 import Money from "../../common/Money";
 
-const DebtListItem = ({ debt }: { debt: DebtEntryWithId }) => {
+const DebtListItem = ({ debt }: { debt: DebtEntryProcessed }) => {
 	return (
 		<Box
 			sx={(theme) => ({
@@ -35,7 +35,7 @@ const DebtListItem = ({ debt }: { debt: DebtEntryWithId }) => {
 		>
 			<Group position="apart">
 				<span>{debt.reason}</span>
-				<Money value={debt.value} />
+				<Money value={debt.adjustedValue} />
 			</Group>
 		</Box>
 	);

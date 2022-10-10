@@ -1,10 +1,10 @@
-import { DebtEntryWithId } from "../types/debt";
+import { DebtEntryProcessed } from "../types/debt";
 
 export const sortByDebtor = (
-	debts: DebtEntryWithId[]
-): Map<string, DebtEntryWithId[]> => {
+	debts: DebtEntryProcessed[]
+): Map<string, DebtEntryProcessed[]> => {
 	// Schema: Debtor, Entries under said debtor
-	const tieredData = new Map<string, DebtEntryWithId[]>();
+	const tieredData = new Map<string, DebtEntryProcessed[]>();
 
 	debts.map((debt) => {
 		// Only add new data if not already in it

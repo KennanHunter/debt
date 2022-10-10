@@ -1,17 +1,17 @@
 import { Box, Group } from "@mantine/core";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { DebtEntry } from "../../../types/debt";
+import { DebtEntryProcessed } from "../../../types/debt";
 import Money from "../../common/Money";
 
 interface DebtorListItemProps {
 	debtor: string;
-	arr: DebtEntry[];
+	arr: DebtEntryProcessed[];
 }
 
 const DebtorListItem = ({ debtor, arr }: DebtorListItemProps) => {
 	const sum = useMemo(
-		() => arr.reduce((prev, current) => prev + current.value, 0),
+		() => arr.reduce((prev, current) => prev + current.adjustedValue, 0),
 		[arr]
 	);
 	return (

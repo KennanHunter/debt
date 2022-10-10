@@ -1,15 +1,15 @@
 import { Box, Group, Stack } from "@mantine/core";
-import { DebtEntryWithId } from "../../types/debt";
+import { DebtEntryProcessed, DebtEntryWithId } from "../../types/debt";
 import Money from "./Money";
 
-const View = ({ debt }: { debt: DebtEntryWithId }) => {
+const View = ({ debt }: { debt: DebtEntryProcessed }) => {
 	return (
 		<Box>
 			<Stack>
 				<Box>
 					<Group>
 						<span>Value</span>
-						<Money value={debt.value} />
+						<Money value={debt.adjustedValue} />
 					</Group>
 				</Box>
 			</Stack>

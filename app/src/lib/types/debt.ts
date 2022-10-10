@@ -1,10 +1,9 @@
 import { Timestamp } from "firebase/firestore";
 import { TimePeriod } from "./timePeriod";
 
-// export interface DebtEntryWithInflation extends DebtEntry {
-// 	adjustedValue: number;
-// 	history?: number[];
-// }
+export interface DebtEntryProcessed extends DebtEntryWithId {
+	adjustedValue: number;
+}
 
 export interface DebtEntryWithId extends DebtEntry {
 	id: string;

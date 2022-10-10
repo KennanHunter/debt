@@ -50,7 +50,12 @@ const DebtorList = () => {
 				</Navbar.Section>
 				<Navbar.Section>
 					<Center>
-						<Button color={"green"} component={Link} to="/new">
+						<Button
+							color={"green"}
+							component={Link}
+							to="/new"
+							style={{ width: 600, height: 50 }}
+						>
 							New Debt
 						</Button>
 					</Center>

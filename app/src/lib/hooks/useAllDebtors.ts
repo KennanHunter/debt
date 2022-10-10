@@ -4,7 +4,7 @@ import { useDebts } from "./useDebts";
 export const useAllDebtors = (): [
 	string[] | undefined,
 	boolean,
-	FirestoreError | undefined
+	FirestoreError | Error | undefined
 ] => {
 	const [debts, loading, error] = useDebts();
 
